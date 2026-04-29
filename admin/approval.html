@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review and Approval - InsightHub</title>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <div id="reviewForm" class="glass-card" style="max-width: 620px; margin: 3rem auto;">
+        <h2>Admin Review Tool</h2>
+        <p style="margin-bottom: 1.5rem; font-size:14px;">Review, edit, approve or reject this submission.</p>
+
+        <label for="editTitle">Project Title</label>
+        <input type="text" id="editTitle">
+
+        <label for="editAbstract">Abstract / Description</label>
+        <textarea id="editAbstract" rows="8"></textarea>
+
+        <div class="button-group">
+            <button onclick="updateStatus('approved')">Approve</button>
+            <button onclick="updateStatus('rejected')" class="btn-outline">Reject</button>
+            <button onclick="saveChanges()" class="btn-outline">Save Edits</button>
+            <button onclick="deleteProject()" class="btn-danger">Delete</button>
+        </div>
+
+        <br>
+        <a href="dashboard.html" style="
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 500;
+            text-decoration: none;
+        ">← Back to Dashboard</a>
+    </div>
+
+    <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    async function loadProject() {
+        if (!id) return;
+        const res = await fetch(`/api/projects/${id}`);
+        const p   = await res.json();
+        document.getElementById('editTitle').value    = p.title;
+        document.getElementById('editAbstract').value = p.abstractdescrip;
+    }
+
+    async function updateStatus(status) {
+        const res = await fetch(`/api/admin/project/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status })
+        });
+        if (res.ok) {
+            alert('Project ' + status + '!');
+            window.location.href = 'dashboard.html';
+        } else {
+            alert('Failed to update status.');
+        }
+    }
+
+    async function saveChanges() {
+        const res = await fetch(`/api/admin/project/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                title:          document.getElementById('editTitle').value,
+                abstractdescrip: document.getElementById('editAbstract').value
+            })
+        });
+        alert(res.ok ? "Changes saved!" : "Error saving changes.");
+    }
+
+    async function deleteProject() {
+        if (!confirm("Permanently delete this project? This cannot be undone.")) return;
+        const res = await fetch(`/api/admin/project/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+            alert("Project deleted.");
+            window.location.href = 'dashboard.html';
+        } else {
+            alert("Failed to delete.");
+        }
+    }
+
+    loadProject();
+    </script>
+</body>
+</html>

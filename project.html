@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details - InsightHub</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <nav class="side-nav glass">
+        <span class="logo"><a href="index.html">InsightHub</a></span>
+        <a href="submission.html">Submit</a>
+        <a href="search.html" class="active">Search</a>
+        <div class="nav-divider"></div>
+        <a href="auth/account.html">Account</a>
+    </nav>
+
+    <main class="page-content">
+        <div id="project-details">
+
+            <div id="main-info">
+                <h1 id="title">Loading...</h1>
+
+                <div class="glass-card" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <p><strong>Student:</strong> <span id="studentName">—</span></p>
+                    <p><strong>Department:</strong> <span id="department">—</span></p>
+                    <p><strong>Supervisor:</strong> <span id="supervisor">—</span></p>
+                    <p><strong>Year:</strong> <span id="year">—</span></p>
+                    <p><strong>Technologies:</strong> <span id="technologies">—</span></p>
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <h3>Abstract / Description</h3>
+                    <p id="abstract" style="margin-top: 0.5rem; line-height: 1.7;"></p>
+                </div>
+
+                <div id="links-section" style="margin-top: 1.25rem; display: flex; gap: 0.75rem; flex-wrap: wrap;"></div>
+
+                <div style="margin-top: 2rem;">
+                    <h3>Comments</h3>
+                    <div id="commentsList" style="margin-top: 0.75rem;"></div>
+
+                    <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <textarea id="commentInput" placeholder="Write a comment..." style="min-height: 80px; resize: vertical;"></textarea>
+                        <button id="submitComment">Post Comment</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="engagement-section">
+                <button id="bookmarkBtn">⭐ Bookmark Project</button>
+                <button id="contactBtn" class="btn-outline">✉ Contact Author</button>
+            </div>
+
+        </div>
+    </main>
+
+</div>
+
+<script src="project.js"></script>
+</body>
+</html>

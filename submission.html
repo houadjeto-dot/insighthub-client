@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Submission - InsightHub</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="layout">
+
+    <nav class="side-nav glass">
+        <span class="logo"><a href="index.html">InsightHub</a></span>
+        <a href="submission.html" class="active">Submit</a>
+        <a href="search.html">Search</a>
+        <div class="nav-divider"></div>
+        <a href="auth/account.html">Account</a>
+    </nav>
+
+    <main class="main-content">
+        <section class="glass-card">
+            <h1>Project Submission</h1>
+            <p>Please provide full details for your research or capstone project.</p>
+
+            <form id="submissionForm" enctype="multipart/form-data">
+
+                <label for="student_name">Student Name</label>
+                <input type="text" name="student_name" placeholder="Enter your full name" required>
+
+                <label for="title">Project Title</label>
+                <input type="text" name="title" placeholder=" " required>
+
+                <label for="abstractdescrip">Abstract / Description</label>
+                <textarea name="abstractdescrip" rows="5" placeholder="Briefly describe your project..." required></textarea>
+
+                <label for="department">Department</label>
+                <select name="department" id="department" required>
+                    <option value=""> Select Department </option>
+                    <option value="IACS">Informatics and Computational Sciences</option>
+                    <option value="BAE">Business and Entrepreneurship</option>
+                    <option value="Engineering">Engineering</option>
+                </select>
+
+                <label for="supervisor">Project Supervisor</label>
+                <input type="text" name="supervisor" placeholder="Name of your supervisor" required>
+
+                <label for="year">Year of Completion</label>
+                <input type="number" name="year" value="2026" required>
+
+                <label for="technologies">Technologies Used (Keywords)</label>
+                <input type="text" name="technologies" placeholder="e.g. Node.js, Python">
+
+                <hr>
+                <h3>Files &amp; Links</h3>
+
+                <label>Upload Project PDF</label>
+                <div class="file-upload-wrapper">
+                    <button type="button" class="file-upload-btn btn-outline" onclick="document.getElementById('projectFile').click()">
+                        Choose PDF File
+                    </button>
+                    <span class="file-name-display" id="fileNameDisplay">No file chosen</span>
+                    <input type="file" id="projectFile" name="projectFile" accept=".pdf" style="display:none"
+                           onchange="document.getElementById('fileNameDisplay').textContent = this.files[0]?.name || 'No file chosen'">
+                </div>
+
+                <label for="external_link">External Project Link</label>
+                <input type="url" name="external_link" placeholder="https://...">
+
+                <label for="video_link">Video / Demo Link</label>
+                <input type="url" name="video_link" placeholder="https://...">
+
+                <button type="submit" class="button-design">Submit for Admin Review</button>
+            </form>
+        </section>
+    </main>
+</div>
+
+<style>
+
+</style>
+
+<script src="script.js"></script>
+</body>
+</html>

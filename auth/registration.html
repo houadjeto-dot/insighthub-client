@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration - InsightHub</title>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="login-container">
+            <h2>Create an Account</h2>
+
+            <form id="regForm">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="student@acity.edu.gh" required>
+
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" placeholder="Full Name" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Choose a password" required>
+
+                <button type="submit">Register</button>
+            </form>
+
+            <p class="auth-footer">Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('regForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email    = document.getElementById('email').value;
+        const fullName = document.getElementById('fullName').value;
+        const password = document.getElementById('password').value;
+
+        const res = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, fullName, password })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert("Registration successful! Please login.");
+            window.location.href = 'login.html';
+        } else {
+            alert("Registration failed: " + (data.error || "Unknown error"));
+        }
+    });
+    </script>
+</body>
+</html>

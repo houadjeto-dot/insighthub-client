@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Discovery - InsightHub</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <nav class="side-nav glass">
+        <span class="logo"><a href="index.html">InsightHub</a></span>
+        <a href="submission.html">Submit</a>
+        <a href="search.html" class="active">Search</a>
+        <div class="nav-divider"></div>
+        <a href="auth/account.html">Account</a>
+    </nav>
+
+    <main class="page-content">
+        <h1>Project Discovery</h1>
+
+        <form action="" id="searchForm">
+            <input type="text" id="searchInput" placeholder="Search for any project...">
+            <button type="submit">
+                <img src="assets/search.png" alt="search">
+            </button>
+        </form>
+
+        <div class="finder-container">
+
+            <div class="nav-col glass">
+                <h4>Filter your search</h4>
+
+                <label for="keywordSearch">Keyword</label>
+                <input type="text" id="keywordSearch" placeholder="Title or Abstract..." onkeyup="fetchProjects()">
+
+                <label for="techSearch">Technologies & Tags</label>
+                <input type="text" id="techSearch" placeholder="e.g. Python, AI, IoT..." onkeyup="fetchProjects()">
+
+                <label for="deptFilter">Department</label>
+                <select id="deptFilter" onchange="fetchProjects()">
+                    <option value="">All Departments</option>
+                    <option value="IACS">Informatics and Comp. Sci.</option>
+                    <option value="BAE">Business and Entrepreneurship</option>
+                    <option value="Engineering">Engineering</option>
+                </select>
+
+                <label for="yearFilter">Year</label>
+                <select id="yearFilter" onchange="fetchProjects()">
+                    <option value="">All Years</option>
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                </select>
+            </div>
+
+            <div class="list-col" id="projectList"></div>
+
+            <div class="preview-col" id="previewArea">
+                <p>Select a project to view details</p>
+            </div>
+
+        </div>
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - InsightHub</title>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <div style="max-width: 800px; margin: 0 auto; padding: 2.5rem 2rem;">
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.25rem;">
+            <h1>Admin Control Panel</h1>
+            <button onclick="logout()" class="btn-outline" style="border-radius:50px; padding:0.4rem 1.2rem; font-size:13px;">Log Out</button>
+        </div>
+        <p style="margin-bottom: 2rem;">Review &amp; manage submitted projects</p>
+
+        <h3 style="margin-bottom: 0.75rem;">Pending Submissions</h3>
+        <div id="pendingList"></div>
+
+        <h3 style="margin: 2rem 0 0.75rem;">Approved Projects</h3>
+        <div id="approvedList"></div>
+
+        <h3 style="margin: 2rem 0 0.75rem;">Rejected Projects</h3>
+        <div id="rejectedList"></div>
+    </div>
+
+    <script>
+    async function loadAdminData() {
+        const res = await fetch('/api/admin/all-projects');
+        const projects = await res.json();
+
+        const pending  = projects.filter(p => p.status === 'pending');
+        const approved = projects.filter(p => p.status === 'approved');
+        const rejected = projects.filter(p => p.status === 'rejected');
+
+        function renderCards(list, showReviewLink) {
+            if (list.length === 0) return '<p style="color:#9a7d60; font-size:14px;">None yet.</p>';
+            return list.map(p => `
+                <div class="card">
+                    <div>
+                        <h4>${p.title}</h4>
+                        <p style="font-size:13px; color:#9a7d60; margin-top:2px;">${p.student_name || 'Unknown'} · ${p.department || ''} · ${p.year || ''}</p>
+                    </div>
+                    <a href="approval.html?id=${p.id}">${showReviewLink ? 'Review &amp; Manage' : 'Edit / Remove'}</a>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('pendingList').innerHTML  = renderCards(pending, true);
+        document.getElementById('approvedList').innerHTML = renderCards(approved, false);
+        document.getElementById('rejectedList').innerHTML = renderCards(rejected, false);
+    }
+
+    async function logout() {
+        await fetch('/api/logout', { method: 'POST' });
+        window.location.href = '../auth/login.html';
+    }
+
+    loadAdminData();
+    </script>
+</body>
+</html>

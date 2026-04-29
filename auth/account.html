@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - InsightHub</title>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="login-container">
+            <h2>My Account</h2>
+            <div id="authStatus"></div>
+        </div>
+    </div>
+
+    <style>
+        #authStatus p { margin-bottom: 1rem; text-align: center; }
+        #authStatus button { width: 100%; }
+        #authStatus a {
+            display: block;
+            text-align: center;
+            margin-top: 0.75rem;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.3);
+            border: 1px solid rgba(90,69,53,0.3);
+            border-radius: 50px;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+        #authStatus a:hover { background: rgba(255,255,255,0.5); }
+    </style>
+
+    <script>
+    fetch('/api/user-status')
+        .then(res => res.json())
+        .then(data => {
+            const statusDiv = document.getElementById('authStatus');
+            if (data.loggedIn) {
+                statusDiv.innerHTML = `
+                    <p>You are logged in.</p>
+                    <button onclick="logout()">Log Out</button>
+                `;
+            } else {
+                statusDiv.innerHTML = `
+                    <p>You are not logged in.</p>
+                    <a href="login.html">Login</a>
+                    <a href="registration.html">Register New Account</a>
+                `;
+            }
+        });
+
+    async function logout() {
+        await fetch('/api/logout', { method: 'POST' });
+        window.location.href = '../index.html';
+    }
+    </script>
+</body>
+</html>
