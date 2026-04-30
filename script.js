@@ -1,3 +1,5 @@
+const API = 'https://insighthub-server.onrender.com';
+
 const projectList = document.getElementById('projectList');
 const previewArea = document.getElementById('previewArea');
 
@@ -12,7 +14,7 @@ async function fetchProjects() {
 
     const combinedSearch = search || keyword;
 
-    const url = `/api/projects?search=${encodeURIComponent(combinedSearch)}&dept=${encodeURIComponent(dept)}&year=${encodeURIComponent(year)}&tech=${encodeURIComponent(tech)}`;
+    const url = `${API}/api/projects?search=${encodeURIComponent(combinedSearch)}&dept=${encodeURIComponent(dept)}&year=${encodeURIComponent(year)}&tech=${encodeURIComponent(tech)}`;
 
     try {
         const response = await fetch(url);
@@ -82,8 +84,9 @@ if (submissionForm) {
         const formData = new FormData(submissionForm);
 
         try {
-            const response = await fetch('/api/projects', {
+            const response = await fetch(`${API}/api/projects`, {
                 method: 'POST',
+                credentials: 'include',
                 body: formData 
             });
 
@@ -103,7 +106,7 @@ if (submissionForm) {
 }
 
 async function bookmarkProject(projectId) {
-    const statusRes = await fetch('/api/user-status');
+    const statusRes = await fetch(`${API}/api/user-status`, { credentials: 'include' });
     const status = await statusRes.json();
 
     if (!status.loggedIn) {
@@ -112,8 +115,9 @@ async function bookmarkProject(projectId) {
         return;
     }
 
-    const res = await fetch('/api/bookmarks', {
+    const res = await fetch(`${API}/api/bookmarks`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: status.userId, projectId })
     });
@@ -124,6 +128,7 @@ async function bookmarkProject(projectId) {
 function requestAccess(id) { 
     alert("Authorization request sent to the author and supervisor."); 
 }
+
 async function loadSingleProject() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
@@ -132,7 +137,7 @@ async function loadSingleProject() {
     if (!id || !titleDisplay) return;
 
     try {
-        const res = await fetch(`/api/projects/${id}`);
+        const res = await fetch(`${API}/api/projects/${id}`);
         const p = await res.json();
 
         titleDisplay.innerText = p.title;
@@ -154,9 +159,8 @@ async function initPage() {
 
     if (id && !document.getElementById('projectList')) {
         try {
-            const response = await fetch(`/api/projects/${id}`);
+            const response = await fetch(`${API}/api/projects/${id}`);
             const project = await response.json();
-
 
             if (document.getElementById('displayTitle')) {
                 document.getElementById('displayTitle').innerText = project.title;

@@ -41,15 +41,16 @@
 
     async function loadProject() {
         if (!id) return;
-        const res = await fetch(`/api/projects/${id}`);
+        const res = await fetch(`https://insighthub-server.onrender.com/api/projects/${id}`);
         const p   = await res.json();
         document.getElementById('editTitle').value    = p.title;
         document.getElementById('editAbstract').value = p.abstractdescrip;
     }
 
     async function updateStatus(status) {
-        const res = await fetch(`/api/admin/project/${id}`, {
+        const res = await fetch(`https://insighthub-server.onrender.com/api/admin/project/${id}`, {
             method: 'PATCH',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status })
         });
@@ -62,8 +63,9 @@
     }
 
     async function saveChanges() {
-        const res = await fetch(`/api/admin/project/${id}`, {
+        const res = await fetch(`https://insighthub-server.onrender.com/api/admin/project/${id}`, {
             method: 'PATCH',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 title:          document.getElementById('editTitle').value,
@@ -75,7 +77,7 @@
 
     async function deleteProject() {
         if (!confirm("Permanently delete this project? This cannot be undone.")) return;
-        const res = await fetch(`/api/admin/project/${id}`, { method: 'DELETE' });
+        const res = await fetch(`https://insighthub-server.onrender.com/api/admin/project/${id}`, { method: 'DELETE' });
         if (res.ok) {
             alert("Project deleted.");
             window.location.href = 'dashboard.html';

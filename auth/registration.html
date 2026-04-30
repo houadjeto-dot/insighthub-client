@@ -35,8 +35,9 @@
         const fullName = document.getElementById('fullName').value;
         const password = document.getElementById('password').value;
 
-        const res = await fetch('/api/register', {
+        const res = await fetch('https://insighthub-server.onrender.com/api/register', {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, fullName, password })
         });

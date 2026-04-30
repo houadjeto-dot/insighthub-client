@@ -1,3 +1,5 @@
+const API = 'https://insighthub-server.onrender.com';
+
 const urlParams = new URLSearchParams(window.location.search);
 const projectId = urlParams.get('id');
 
@@ -8,7 +10,7 @@ async function loadProjectDetails() {
     }
 
     try {
-        const resp = await fetch(`/api/projects/${projectId}`);
+        const resp = await fetch(`${API}/api/projects/${projectId}`);
         if (!resp.ok) throw new Error("Project not found");
         const project = await resp.json();
 
@@ -20,12 +22,11 @@ async function loadProjectDetails() {
         document.getElementById('year').innerText = project.year || '—';
         document.getElementById('technologies').innerText = project.technologies || 'N/A';
 
-        // Show file / video links if they exist
         const linksSection = document.getElementById('links-section');
         if (linksSection) {
             let linksHTML = '';
             if (project.file_path) {
-                linksHTML += `<a href="${project.file_path}" target="_blank" class="button-design">📄 View PDF</a>`;
+                linksHTML += `<a href="${API}${project.file_path}" target="_blank" class="button-design">📄 View PDF</a>`;
             }
             if (project.external_link) {
                 linksHTML += `<a href="${project.external_link}" target="_blank" class="button-design btn-outline">🔗 External Link</a>`;
@@ -55,7 +56,7 @@ async function loadProjectDetails() {
 const bookmarkBtn = document.getElementById('bookmarkBtn');
 if (bookmarkBtn) {
     bookmarkBtn.addEventListener('click', async () => {
-        const statusRes = await fetch('/api/user-status');
+        const statusRes = await fetch(`${API}/api/user-status`, { credentials: 'include' });
         const status = await statusRes.json();
 
         if (!status.loggedIn) {
@@ -64,8 +65,9 @@ if (bookmarkBtn) {
             return;
         }
 
-        const res = await fetch('/api/bookmarks', {
+        const res = await fetch(`${API}/api/bookmarks`, {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 userId: status.userId, 
@@ -86,7 +88,7 @@ async function loadComments() {
     if (!commentsList) return;
 
     try {
-        const commResp = await fetch(`/api/projects/${projectId}/comments`);
+        const commResp = await fetch(`${API}/api/projects/${projectId}/comments`);
         const comments = await commResp.json();
         
         if (comments.length === 0) {
@@ -116,8 +118,9 @@ if (submitCommentBtn) {
             return;
         }
 
-        const res = await fetch(`/api/projects/${projectId}/comments`, {
+        const res = await fetch(`${API}/api/projects/${projectId}/comments`, {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text })
         });

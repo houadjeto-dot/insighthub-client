@@ -32,8 +32,9 @@
         e.preventDefault();
         const errorMsg = document.getElementById('errorMessage');
         
-        const res = await fetch('/api/login', {
+        const res = await fetch('https://insighthub-server.onrender.com/api/login', {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 email: document.getElementById('email').value,
