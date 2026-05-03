@@ -46,9 +46,9 @@
         const data = await res.json(); 
         
         if (data.isAdmin) {
-            window.location.href = "/admin/dashboard.html";
+            window.location.href = "../admin/dashboard.html";
         } else {
-            window.location.href = "/search.html";
+            window.location.href = "../index.html";
         }
     } else {
         errorMsg.textContent = "No account matches these credentials. Please check your details or register.";
